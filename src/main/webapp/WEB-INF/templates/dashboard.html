@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Room 13 — Dashboard</title>
+    <link rel="stylesheet" th:href="@{/static/css/style.css}"/>
+</head>
+<body class="dashboard-body">
+
+<header class="menu-header">
+    <span class="player-info">▶ <span th:text="${player.username}">PLAYER</span></span>
+    <nav class="header-nav">
+        <a th:href="@{/menu}">[ MENU ]</a>
+        <a th:href="@{/logout}">[ LOGOUT ]</a>
+    </nav>
+</header>
+
+<main class="dashboard-main">
+
+    <h1 class="dash-title">DASHBOARD</h1>
+
+    <!-- Player card -->
+    <div class="player-card">
+        <div class="player-card-inner">
+            <div class="pc-label">OPERATIVE</div>
+            <div class="pc-name" th:text="${player.username}">USERNAME</div>
+            <div class="pc-score-label">BEST ESCAPE SCORE</div>
+            <div class="pc-score" th:text="${player.bestScore}">0</div>
+        </div>
+    </div>
+
+    <!-- Saved games table -->
+    <section class="dash-section">
+        <h2 class="section-heading">SAVED SESSIONS</h2>
+
+        <div th:if="${savedGames == null or #lists.isEmpty(savedGames)}" class="empty-msg">
+            No saved sessions found.
+        </div>
+
+        <table class="saved-table" th:if="${savedGames != null and !#lists.isEmpty(savedGames)}">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>LEVEL</th>
+                    <th>RIDDLE</th>
+                    <th>TIME LEFT</th>
+                    <th>SAVED AT</th>
+                    <th>ACTIONS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="sg, stat : ${savedGames}">
+                    <td th:text="${stat.index + 1}">1</td>
+                    <td th:text="${sg.level}">EASY</td>
+                    <td th:text="${sg.riddleIndex + 1}">1</td>
+                    <td th:text="${sg.remainingSeconds + 's'}">300s</td>
+                    <td th:text="${sg.savedAt}">2024-01-01</td>
+                    <td>
+                        <a th:href="@{/game/load/{id}(id=${sg.id})}" class="btn btn-small">▶ RESUME</a>
+                        <form th:action="@{/game/delete/{id}(id=${sg.id})}" method="post" style="display:inline">
+                            <button type="submit" class="btn btn-small btn-danger"
+                                    onclick="return confirm('Delete this saved session?')">✕ DELETE</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <div class="dash-actions">
+        <a th:href="@{/menu}" class="btn btn-primary">[ NEW GAME ]</a>
+    </div>
+
+</main>
+
+</body>
+</html>

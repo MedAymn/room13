@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Room 13 — Game Over</title>
+    <link rel="stylesheet" th:href="@{/static/css/style.css}"/>
+</head>
+<body class="gameover-body">
+
+<div class="gameover-container">
+
+    <div class="gameover-art">
+        <svg viewBox="0 0 200 200" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+            <!-- Dark room -->
+            <rect x="10" y="10" width="180" height="180" fill="#0a0a0a" stroke="#1a1a1a" stroke-width="1"/>
+            <!-- Locked door -->
+            <rect x="60" y="30" width="80" height="140" fill="#0a0a0a" stroke="#ff4444" stroke-width="2"/>
+            <rect x="63" y="33" width="74" height="134" fill="#0d0d0d"/>
+            <!-- Lock icon -->
+            <rect x="88" y="100" width="24" height="20" rx="2" fill="none" stroke="#ff4444" stroke-width="2"/>
+            <path d="M 94 100 Q 94 88 100 88 Q 106 88 106 100" fill="none" stroke="#ff4444" stroke-width="2"/>
+            <circle cx="100" cy="110" r="3" fill="#ff4444"/>
+            <!-- X marks -->
+            <line x1="70" y1="40" x2="80" y2="50" stroke="#ff444433" stroke-width="1"/>
+            <line x1="80" y1="40" x2="70" y2="50" stroke="#ff444433" stroke-width="1"/>
+            <line x1="120" y1="40" x2="130" y2="50" stroke="#ff444433" stroke-width="1"/>
+            <line x1="130" y1="40" x2="120" y2="50" stroke="#ff444433" stroke-width="1"/>
+        </svg>
+    </div>
+
+    <div class="gameover-message">TIME'S UP</div>
+    <div class="gameover-sub">The door remains locked. You did not escape.</div>
+
+    <div class="gameover-level" th:if="${level != null}">
+        Level: <span th:text="${level}">EASY</span>
+    </div>
+
+    <div class="gameover-actions">
+        <form th:action="@{/game/start}" method="post" style="display:inline" th:if="${level != null}">
+            <input type="hidden" name="level" th:value="${level}"/>
+            <button type="submit" class="btn btn-primary">[ TRY AGAIN ]</button>
+        </form>
+        <a th:href="@{/menu}" class="btn">[ MENU ]</a>
+        <a th:href="@{/dashboard}" class="btn">[ DASHBOARD ]</a>
+    </div>
+
+</div>
+
+</body>
+</html>

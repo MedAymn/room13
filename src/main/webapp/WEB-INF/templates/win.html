@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Room 13 — ESCAPED!</title>
+    <link rel="stylesheet" th:href="@{/static/css/style.css}"/>
+</head>
+<body class="win-body">
+
+<div class="win-container">
+
+    <!-- Animated door-open SVG -->
+    <div class="win-art">
+        <svg viewBox="0 0 200 200" width="220" height="220" xmlns="http://www.w3.org/2000/svg" class="win-door-svg">
+            <!-- Room back wall -->
+            <rect x="10" y="10" width="180" height="180" fill="#0a0a0a" stroke="#1a1a1a" stroke-width="1"/>
+            <!-- Door frame -->
+            <rect x="60" y="30" width="80" height="140" fill="#001a0d" stroke="#00ff88" stroke-width="2"/>
+            <!-- Glow light from freedom -->
+            <radialGradient id="freedomGlow" cx="100" cy="100" r="50%">
+                <stop offset="0%"   stop-color="#00ff88" stop-opacity="0.3"/>
+                <stop offset="100%" stop-color="#00ff88" stop-opacity="0"/>
+            </radialGradient>
+            <rect x="62" y="32" width="76" height="136" fill="url(#freedomGlow)"/>
+            <!-- Open door panel (skewed) -->
+            <polygon points="60,30 90,35 90,165 60,170" fill="#0d0d0d" stroke="#00ff88" stroke-width="1.5"/>
+            <!-- Outer light -->
+            <polygon points="90,35 140,10 140,190 90,165" fill="#001a0d" stroke="none" opacity="0.8"/>
+
+            <!-- Particles / stars of freedom -->
+            <circle cx="110" cy="55"  r="1.5" fill="#00ff88" opacity="0.9"/>
+            <circle cx="125" cy="80"  r="1"   fill="#00ff88" opacity="0.7"/>
+            <circle cx="115" cy="100" r="2"   fill="#00ff88" opacity="1"/>
+            <circle cx="128" cy="120" r="1"   fill="#00ff88" opacity="0.6"/>
+            <circle cx="108" cy="145" r="1.5" fill="#00ff88" opacity="0.8"/>
+        </svg>
+    </div>
+
+    <div class="win-message">ESCAPED!</div>
+    <div class="win-sub">You solved the riddles and cracked the code.</div>
+
+    <div class="win-stats">
+        <div class="stat-row">
+            <span class="stat-label">LEVEL</span>
+            <span class="stat-value" th:text="${finalLevel}">EASY</span>
+        </div>
+        <div class="stat-row">
+            <span class="stat-label">TIME REMAINING</span>
+            <span class="stat-value">
+                <span th:text="${finalRemainingSeconds != null ? finalRemainingSeconds / 60 : 0}">0</span>m
+                <span th:text="${finalRemainingSeconds != null ? finalRemainingSeconds % 60 : 0}">0</span>s
+            </span>
+        </div>
+        <div class="stat-row highlight">
+            <span class="stat-label">FINAL SCORE</span>
+            <span class="stat-value score-value" th:text="${finalScore}">0</span>
+        </div>
+        <div class="stat-row" th:if="${player != null}">
+            <span class="stat-label">YOUR BEST</span>
+            <span class="stat-value" th:text="${player.bestScore}">0</span>
+        </div>
+    </div>
+
+    <div class="win-actions">
+        <form th:action="@{/game/start}" method="post" style="display:inline">
+            <input type="hidden" name="level" th:value="${finalLevel}"/>
+            <button type="submit" class="btn btn-primary">[ PLAY AGAIN ]</button>
+        </form>
+        <a th:href="@{/menu}" class="btn">[ MENU ]</a>
+        <a th:href="@{/dashboard}" class="btn">[ DASHBOARD ]</a>
+    </div>
+
+</div>
+
+</body>
+</html>

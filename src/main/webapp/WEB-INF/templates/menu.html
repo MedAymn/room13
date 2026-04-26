@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Room 13 — Select Level</title>
+    <link rel="stylesheet" th:href="@{/static/css/style.css}"/>
+</head>
+<body class="menu-body">
+
+<header class="menu-header">
+    <span class="player-info">▶ <span th:text="${player.username}">PLAYER</span></span>
+    <span class="player-score">BEST: <span th:text="${player.bestScore}">0</span></span>
+    <nav class="header-nav">
+        <a th:href="@{/dashboard}">[ DASHBOARD ]</a>
+        <a th:href="@{/logout}">[ LOGOUT ]</a>
+    </nav>
+</header>
+
+<main class="menu-main">
+
+    <div class="menu-title-block">
+        <div class="big-13">13</div>
+        <h1 class="menu-title">ROOM 13</h1>
+        <p class="menu-subtitle">You are trapped. Solve the riddles. Find the code.</p>
+    </div>
+
+    <!-- Level selection -->
+    <section class="level-section">
+        <h2 class="section-heading">SELECT DIFFICULTY</h2>
+        <div class="level-grid">
+
+            <form th:action="@{/game/start}" method="post" class="level-form">
+                <input type="hidden" name="level" value="EASY"/>
+                <button type="submit" class="level-card level-easy">
+                    <span class="level-name">EASY</span>
+                    <span class="level-meta">3 riddles · 3-digit PIN · 5:00 timer</span>
+                    <span class="level-mult">×1 score multiplier</span>
+                    <span class="level-door">
+                        <svg viewBox="0 0 60 100" width="60" height="100">
+                            <rect x="5" y="5" width="50" height="90" fill="none" stroke="#00ff88" stroke-width="2"/>
+                            <rect x="8" y="8" width="44" height="84" fill="#111"/>
+                            <circle cx="40" cy="50" r="4" fill="none" stroke="#00ff88" stroke-width="1.5"/>
+                        </svg>
+                    </span>
+                </button>
+            </form>
+
+            <form th:action="@{/game/start}" method="post" class="level-form">
+                <input type="hidden" name="level" value="MEDIUM"/>
+                <button type="submit" class="level-card level-medium">
+                    <span class="level-name">MEDIUM</span>
+                    <span class="level-meta">4 riddles · 4-digit PIN · 4:00 timer</span>
+                    <span class="level-mult">×2 score multiplier</span>
+                    <span class="level-door">
+                        <svg viewBox="0 0 60 100" width="60" height="100">
+                            <rect x="5" y="5" width="50" height="90" fill="none" stroke="#f0c040" stroke-width="2"/>
+                            <rect x="8" y="8" width="44" height="84" fill="#111"/>
+                            <circle cx="40" cy="50" r="4" fill="none" stroke="#f0c040" stroke-width="1.5"/>
+                            <line x1="5" y1="5" x2="55" y2="95" stroke="#f0c04022" stroke-width="1"/>
+                        </svg>
+                    </span>
+                </button>
+            </form>
+
+            <form th:action="@{/game/start}" method="post" class="level-form">
+                <input type="hidden" name="level" value="HARD"/>
+                <button type="submit" class="level-card level-hard">
+                    <span class="level-name">HARD</span>
+                    <span class="level-meta">6 riddles · 6-digit PIN · 3:00 timer</span>
+                    <span class="level-mult">×3 score multiplier</span>
+                    <span class="level-door">
+                        <svg viewBox="0 0 60 100" width="60" height="100">
+                            <rect x="5" y="5" width="50" height="90" fill="none" stroke="#ff4444" stroke-width="2"/>
+                            <rect x="8" y="8" width="44" height="84" fill="#111"/>
+                            <circle cx="40" cy="50" r="4" fill="none" stroke="#ff4444" stroke-width="1.5"/>
+                            <line x1="5" y1="5" x2="55" y2="95" stroke="#ff444422" stroke-width="1"/>
+                            <line x1="55" y1="5" x2="5" y2="95" stroke="#ff444422" stroke-width="1"/>
+                        </svg>
+                    </span>
+                </button>
+            </form>
+
+        </div>
+    </section>
+
+    <!-- Saved Sessions -->
+    <section class="saved-section" th:if="${savedGames != null and !#lists.isEmpty(savedGames)}">
+        <h2 class="section-heading">SAVED SESSIONS</h2>
+        <table class="saved-table">
+            <thead>
+                <tr>
+                    <th>LEVEL</th>
+                    <th>RIDDLE</th>
+                    <th>TIME LEFT</th>
+                    <th>SAVED AT</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="sg : ${savedGames}">
+                    <td th:text="${sg.level}">EASY</td>
+                    <td th:text="${sg.riddleIndex + 1}">1</td>
+                    <td th:text="${sg.remainingSeconds + 's'}">300s</td>
+                    <td th:text="${sg.savedAt}">2024-01-01</td>
+                    <td>
+                        <a th:href="@{/game/load/{id}(id=${sg.id})}" class="btn btn-small">▶ RESUME</a>
+                        <form th:action="@{/game/delete/{id}(id=${sg.id})}" method="post" style="display:inline">
+                            <button type="submit" class="btn btn-small btn-danger"
+                                    onclick="return confirm('Delete this saved session?')">✕</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+</main>
+
+</body>
+</html>

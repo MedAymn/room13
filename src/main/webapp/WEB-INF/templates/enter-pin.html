@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Room 13 — Enter PIN</title>
+    <link rel="stylesheet" th:href="@{/static/css/style.css}"/>
+</head>
+<body class="game-body enter-pin-body">
+
+<!-- Timer widget -->
+<div class="timer-widget" id="timerWidget">
+    <span class="timer-label">TIME</span>
+    <span class="timer-display" id="timerDisplay">00:00</span>
+</div>
+
+<form id="timeoutForm" th:action="@{/game/timeout}" method="post" style="display:none"></form>
+<input type="hidden" id="remainingSeconds" th:value="${remainingSeconds}"/>
+
+<div class="pin-entry-container">
+
+    <!-- Room SVG (compact) -->
+    <div class="pin-room-art">
+        <svg viewBox="0 0 200 160" width="200" height="160" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="10" width="160" height="140" fill="#0e0e0e" stroke="#222" stroke-width="1"/>
+            <!-- Open door effect -->
+            <rect x="70" y="30" width="60" height="100" fill="#0a0a0a" stroke="#00ff88" stroke-width="1.5"/>
+            <!-- Light from beyond -->
+            <polygon points="70,30 130,30 160,10 40,10" fill="#001a0d" opacity="0.6"/>
+            <polygon points="70,130 130,130 160,150 40,150" fill="#001a0d" opacity="0.4"/>
+            <!-- Glow -->
+            <rect x="72" y="32" width="56" height="96" fill="#001a0d" stroke="#00ff8844" stroke-width="1"/>
+            <text x="100" y="88" text-anchor="middle" fill="#00ff88" font-family="monospace" font-size="12">OPEN</text>
+        </svg>
+        <p class="art-caption">All riddles solved. Enter the code.</p>
+    </div>
+
+    <!-- PIN display (fully revealed) -->
+    <div class="pin-display-full">
+        <div class="pin-label">UNLOCK CODE</div>
+        <div class="pin-display">
+            <span th:each="d : ${revealedDigitsDisplay}"
+                  class="digit-box revealed"
+                  th:text="${d}">0</span>
+        </div>
+    </div>
+
+    <!-- Error message -->
+    <div class="alert alert-error" th:if="${pinError}" th:text="${pinError}"></div>
+
+    <!-- PIN entry -->
+    <div class="keypad-area">
+        <div class="pin-entry-label">ENTER THE PIN</div>
+
+        <!-- Hidden form that keypad.js submits -->
+        <form id="pinForm" th:action="@{/game/submit-pin}" method="post">
+            <input type="hidden" name="pin" id="pinInput"/>
+        </form>
+
+        <!-- Visual PIN entry display -->
+        <div class="pin-entry-display" id="pinEntryDisplay">
+            <span th:each="i : ${#numbers.sequence(1, pinLength)}" class="entry-box" id="entryBox">_</span>
+        </div>
+
+        <!-- On-screen keypad -->
+        <div class="keypad" id="keypad">
+            <button type="button" class="key" data-digit="1">1</button>
+            <button type="button" class="key" data-digit="2">2</button>
+            <button type="button" class="key" data-digit="3">3</button>
+            <button type="button" class="key" data-digit="4">4</button>
+            <button type="button" class="key" data-digit="5">5</button>
+            <button type="button" class="key" data-digit="6">6</button>
+            <button type="button" class="key" data-digit="7">7</button>
+            <button type="button" class="key" data-digit="8">8</button>
+            <button type="button" class="key" data-digit="9">9</button>
+            <button type="button" class="key key-clear" id="keyBackspace">&#9003;</button>
+            <button type="button" class="key" data-digit="0">0</button>
+            <button type="button" class="key key-confirm" id="keyConfirm">&#10003;</button>
+        </div>
+
+        <p class="keypad-hint muted">Use keypad above or keyboard digits. Press Enter or ✓ to confirm.</p>
+    </div>
+
+    <div class="pin-nav">
+        <a th:href="@{/menu}" class="btn btn-small">&#8592; Back to Menu</a>
+    </div>
+
+</div>
+
+<input type="hidden" id="pinLength" th:value="${pinLength}"/>
+
+<script th:src="@{/static/js/timer.js}"></script>
+<script th:src="@{/static/js/keypad.js}"></script>
+</body>
+</html>

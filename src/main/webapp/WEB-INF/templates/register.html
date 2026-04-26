@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Room 13 — Register</title>
+    <link rel="stylesheet" th:href="@{/static/css/style.css}"/>
+</head>
+<body class="auth-body">
+
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="brand">
+            <span class="brand-number">13</span>
+            <span class="brand-label">ROOM 13</span>
+        </div>
+        <p class="auth-tagline">Create Account</p>
+
+        <div class="alert alert-error" th:if="${error}" th:text="${error}"></div>
+
+        <form th:action="@{/register}" method="post" class="auth-form">
+            <div class="form-group">
+                <label for="username">IDENTIFIER</label>
+                <input type="text" id="username" name="username"
+                       placeholder="choose a username (3–50 chars)"
+                       autocomplete="username" minlength="3" maxlength="50" required/>
+            </div>
+            <div class="form-group">
+                <label for="password">PASSPHRASE</label>
+                <input type="password" id="password" name="password"
+                       placeholder="choose a password"
+                       autocomplete="new-password" required/>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">CONFIRM PASSPHRASE</label>
+                <input type="password" id="confirmPassword" name="confirmPassword"
+                       placeholder="repeat password"
+                       autocomplete="new-password" required/>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">[ CREATE ACCOUNT ]</button>
+        </form>
+
+        <p class="auth-link">Already have an account? <a th:href="@{/login}">Login here</a></p>
+    </div>
+</div>
+
+</body>
+</html>

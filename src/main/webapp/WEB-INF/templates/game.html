@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Room 13 — Game</title>
+    <link rel="stylesheet" th:href="@{/static/css/style.css}"/>
+</head>
+<body class="game-body">
+
+<!-- Timer (fixed top-right) -->
+<div class="timer-widget" id="timerWidget">
+    <span class="timer-label">TIME</span>
+    <span class="timer-display" id="timerDisplay">00:00</span>
+</div>
+
+<!-- Hidden form auto-submitted when timer reaches 0 -->
+<form id="timeoutForm" th:action="@{/game/timeout}" method="post" style="display:none">
+</form>
+
+<!-- Hidden input read by timer.js -->
+<input type="hidden" id="remainingSeconds" th:value="${remainingSeconds}"/>
+
+<div class="game-layout">
+
+    <!-- ══ LEFT PANEL — The Room ══════════════════════════════════════════ -->
+    <aside class="room-panel">
+
+        <!-- Room Image -->
+        <div class="room-visual">
+            <img th:src="@{/static/images/bg.png}" alt="Escape Room" class="room-image" />
+        </div>
+
+        <!-- PIN display -->
+        <div class="pin-section">
+            <div class="pin-label">SECURITY CODE</div>
+            <div class="pin-display">
+                <span th:each="d, stat : ${revealedDigitsDisplay}"
+                      th:class="${d != '?'} ? 'digit-box revealed' : 'digit-box'"
+                      th:text="${d}">?</span>
+            </div>
+        </div>
+
+        <!-- Level + score info -->
+        <div class="room-meta">
+            <span th:text="${level}">EASY</span>
+            &nbsp;|&nbsp;
+            SCORE: <span th:text="${currentScore}">0</span>
+            &nbsp;|&nbsp;
+            <span th:if="${lastSavedAt != null}" class="saved-indicator">
+                SAVED ✓
+            </span>
+        </div>
+
+    </aside>
+
+    <!-- ══ RIGHT PANEL — Riddle Terminal ══════════════════════════════════ -->
+    <main class="riddle-panel">
+
+        <div class="riddle-header">
+            <span class="riddle-counter">
+                RIDDLE [<span th:text="${riddleNumber}">1</span>/<span th:text="${riddleCount}">3</span>]
+            </span>
+            <span class="riddle-level" th:text="${level}">EASY</span>
+        </div>
+
+        <!-- Riddle terminal box -->
+        <div class="terminal-box">
+            <div class="terminal-prompt">&gt; PUZZLE.EXE</div>
+            <p class="riddle-question" th:text="${riddle.question}">Question text here.</p>
+
+            <!-- Hint -->
+            <div class="hint-block" th:if="${hint != null}">
+                <span class="hint-tag">HINT:</span>
+                <span class="hint-text" th:text="${hint}">Hint text.</span>
+            </div>
+
+            <!-- Auto-solved explanation -->
+            <div class="solved-block" th:if="${autoSolved}">
+                <span class="solved-tag">AUTO-SOLVED:</span>
+                <span class="solved-text">La réponse est : <strong th:text="${riddle.answer}">Answer</strong>. <span th:text="${riddle.explanation}">Explanation.</span></span>
+                <form th:action="@{/game/next}" method="post" style="margin-top: 15px;">
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">[ NEXT RIDDLE ]</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Error message -->
+        <div class="alert alert-error" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
+        <!-- Answer form (hidden if riddle is auto-solved) -->
+        <form th:if="${!autoSolved}" th:action="@{/game/answer}" method="post" class="answer-form">
+            <div class="answer-row">
+                <input type="text" name="answer"
+                       placeholder="TYPE YOUR ANSWER..."
+                       autocomplete="off"
+                       class="answer-input"
+                       autofocus/>
+                <button type="submit" class="btn btn-primary">[ SUBMIT ]</button>
+            </div>
+        </form>
+
+        <!-- Action buttons -->
+        <div class="action-buttons" th:if="${!autoSolved}">
+            <form th:action="@{/game/hint}" method="post" style="display:inline">
+                <button type="submit"
+                        class="btn btn-hint"
+                        th:disabled="${hintUsed}"
+                        th:classappend="${hintUsed} ? ' btn-disabled' : ''">
+                    HINT &minus;30s
+                </button>
+            </form>
+            <form th:action="@{/game/solve}" method="post" style="display:inline">
+                <button type="submit" class="btn btn-solve">SOLVE &minus;90s</button>
+            </form>
+            <form th:action="@{/game/save}" method="post" style="display:inline">
+                <button type="submit" class="btn btn-save">SAVE</button>
+            </form>
+        </div>
+
+        <!-- Digit rule explanation -->
+        <div class="digit-rule-info">
+            <span class="muted">Rule: count letters in the answer mod 10 = one digit of the PIN.</span>
+        </div>
+
+    </main>
+</div>
+
+<script th:src="@{/static/js/timer.js}"></script>
+</body>
+</html>
