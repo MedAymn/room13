@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <title>Room 13 — Request access</title>
@@ -133,32 +133,33 @@
     </section>
 
     <section class="right">
-      <form class="panel" id="regForm" method="post" th:action="@{/register}" autocomplete="off" novalidate>
+      <form class="panel" id="regForm" method="post" action="/auth/register" autocomplete="off" novalidate>
         <p class="eyebrow">New visitor</p>
         <h2>Request access</h2>
         <p class="helper">Three quick fields. You can be in the room in under a minute.</p>
 
-        <div style="color: var(--warn); margin-bottom: 12px; font-size: 14px;" th:if="${error}" th:text="${error}"></div>
-
         <div class="field" id="f-user">
           <label for="username">Identifier</label>
-          <input id="username" name="username" type="text" placeholder="Pick a handle" maxlength="24" spellcheck="false" required />
+          <input id="username" type="text" placeholder="Pick a handle" maxlength="24" spellcheck="false" />
+          <div class="err">That identifier is taken.</div>
         </div>
 
         <div class="field" id="f-pass">
           <label for="password">Passkey</label>
-          <input id="password" name="password" type="password" placeholder="At least 8 characters" minlength="8" required />
+          <input id="password" type="password" placeholder="At least 8 characters" minlength="8" />
           <div class="strength" id="meter"><i></i><i></i><i></i><i></i></div>
+          <div class="err">A little stronger, please.</div>
         </div>
 
         <div class="field" id="f-conf">
           <label for="confirm">Confirm passkey</label>
-          <input id="confirm" name="confirmPassword" type="password" placeholder="Type it again" required />
+          <input id="confirm" type="password" placeholder="Type it again" />
+          <div class="err">Passkeys don't match.</div>
         </div>
 
         <button class="submit" type="submit">Create account →</button>
 
-        <p class="switch">Already have one? <a th:href="@{/login}">Sign in</a>.</p>
+        <p class="switch">Already have one? <a href="login.html">Sign in</a>.</p>
       </form>
     </section>
   </main>
@@ -175,6 +176,16 @@
     return n;
   }
   pw.addEventListener('input', () => { meter.className = 'strength lvl-' + score(pw.value); });
+  document.getElementById('regForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const u = document.getElementById('username').value.trim();
+    const p = pw.value;
+    const c = document.getElementById('confirm').value;
+    document.getElementById('f-user').classList.toggle('has-error', u.length < 3);
+    document.getElementById('f-pass').classList.toggle('has-error', score(p) < 2);
+    document.getElementById('f-conf').classList.toggle('has-error', p !== c || !c);
+    if (u.length >= 3 && score(p) >= 2 && p === c) window.location.href = 'login.html';
+  });
 </script>
 </body>
 </html>

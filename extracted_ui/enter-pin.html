@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <title>Room 13 — Enter the code</title>
@@ -155,15 +155,13 @@
   <div class="veil"></div>
 
   <div class="stage">
-    <form class="modal" id="pinForm" th:action="@{/game/submit-pin}" method="post" autocomplete="off">
+    <form class="modal" id="pinForm" action="/game/submit-pin" method="post" autocomplete="off">
       <div class="head">
         <span class="eyebrow">Lockplate · Wing C</span>
-        <a th:href="@{/game}" class="close" aria-label="close">×</a>
+        <a href="game.html" class="close" aria-label="close">×</a>
       </div>
       <h2>Enter the <em>code</em>.</h2>
-      <p class="helper" th:if="${pinError == null}">Enter the PIN to unlock.</p>
-      <p class="helper" style="color:var(--warn); font-weight:bold;" th:if="${pinError != null}" th:text="${pinError}"></p>
-      <input type="hidden" id="pinInput" name="pin" />
+      <p class="helper">You have <b id="attemptsLeft">2</b> attempts remaining.</p>
 
       <div class="pins" id="pinRow"></div>
       <div class="msg" id="msg" aria-live="polite">&nbsp;</div>
@@ -185,7 +183,7 @@
 
       <div class="foot">
         <span>0–9 · Backspace · Enter</span>
-        <a th:href="@{/game}">← Back to riddle</a>
+        <a href="game.html">← Back to riddle</a>
       </div>
     </form>
   </div>
@@ -199,12 +197,17 @@
     <button id="forceErr">Force err</button>
   </div>
 
-<script th:inline="javascript">
-  let LEN = /*[[${pinLength}]]*/ 4;
+<script>
+  const params = new URLSearchParams(location.search);
+  const lvlLen = { EASY: 3, MEDIUM: 4, HARD: 6 };
+  let LEN = lvlLen[params.get('level')] || 4;
+  function correctFor(len) { return len === 3 ? '724' : len === 6 ? '724391' : '7239'; }
+  let CORRECT = correctFor(LEN);
   let buf = [];
   const row = document.getElementById('pinRow');
 
   function render() {
+    CORRECT = correctFor(LEN);
     row.innerHTML = '';
     for (let i = 0; i < LEN; i++) {
       const b = document.createElement('div');
@@ -230,15 +233,25 @@
   function backspace() { if (buf.length) { buf.pop(); render(); } }
   function submit() {
     if (buf.length < LEN) { flashErr('Code is incomplete.'); return; }
-    document.getElementById('pinInput').value = buf.join('');
-    document.getElementById('pinForm').submit();
+    if (buf.join('') === CORRECT) {
+      const m = document.getElementById('msg');
+      m.textContent = 'Access granted — opening the door.'; m.className = 'msg ok';
+      [...r13-row.children].forEach(b => { b.style.borderColor = 'var(--good)'; b.style.color = 'var(--good)'; });
+      setTimeout(() => location.href = 'win.html', 900);
+    } else {
+      flashErr('That isn\'t the code.');
+      let n = parseInt(document.getElementById('attemptsLeft').textContent, 10);
+      n = Math.max(0, n - 1);
+      document.getElementById('attemptsLeft').textContent = n;
+      if (n === 0) setTimeout(() => location.href = 'game-over.html', 900);
+    }
   }
   function flashErr(text) {
     row.classList.remove('shake'); void row.offsetWidth; row.classList.add('shake');
-    [...row.children].forEach(b => b.classList.add('error'));
+    [...r13-row.children].forEach(b => b.classList.add('error'));
     const m = document.getElementById('msg');
     m.textContent = text; m.className = 'msg err';
-    setTimeout(() => { [...row.children].forEach(b => b.classList.remove('error')); buf = []; render(); }, 700);
+    setTimeout(() => { [...r13-row.children].forEach(b => b.classList.remove('error')); buf = []; render(); }, 700);
   }
 
   document.getElementById('keypad').addEventListener('click', (e) => {

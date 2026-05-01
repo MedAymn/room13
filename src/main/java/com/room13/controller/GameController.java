@@ -92,12 +92,11 @@ public class GameController {
         }
 
         List<Riddle> riddles = gameService.getRiddlesForLevel(lvl);
-        int[] revealedDigits = gameService.initRevealedDigits(lvl);
+        Riddle current = riddles.get(0);
 
-        // Compute correct PIN from riddle digits
-        String correctPin = riddles.stream()
-                .map(r -> String.valueOf(r.getDigit()))
-                .collect(Collectors.joining());
+        String correctPin = current.getAnswer();
+        int[] revealedDigits = new int[correctPin.length()];
+        Arrays.fill(revealedDigits, -1);
 
         session.setAttribute("level", lvl.name());
         session.setAttribute("riddles", riddles);
@@ -173,47 +172,26 @@ public class GameController {
         return "game";
     }
 
-    // ── SUBMIT ANSWER ─────────────────────────────────────────────────────────
-
     @SuppressWarnings("unchecked")
     @PostMapping("/game/answer")
-    public String submitAnswer(@RequestParam("answer") String answer,
-                               HttpSession session,
-                               RedirectAttributes redirectAttrs) {
+    public String submitAnswer(@RequestParam("answer") String answer, HttpSession session) {
         Player player = requirePlayer(session);
         if (player == null) return "redirect:/login";
 
         List<Riddle> riddles = (List<Riddle>) session.getAttribute("riddles");
-        if (riddles == null) return "redirect:/menu";
+        int riddleIndex = (Integer) session.getAttribute("riddleIndex");
+        if (riddles == null || riddleIndex >= riddles.size()) return "redirect:/game";
 
-        int remainingSeconds = updateTimer(session);
-        if (remainingSeconds <= 0) {
-            session.setAttribute("gameOver", true);
-            return "redirect:/gameover";
-        }
-
-        int    riddleIndex    = (Integer) session.getAttribute("riddleIndex");
-        int[]  revealedDigits = (int[]) session.getAttribute("revealedDigits");
-        Riddle current        = riddles.get(riddleIndex);
+        Riddle current = riddles.get(riddleIndex);
+        updateTimer(session);
 
         if (gameService.checkAnswer(current, answer)) {
-            // Correct — reveal digit
-            revealedDigits[riddleIndex] = current.getDigit();
-            session.setAttribute("revealedDigits", revealedDigits);
-            session.setAttribute("riddleIndex", riddleIndex + 1);
-            // Reset per-riddle state
-            session.setAttribute("hintUsed", false);
-            session.setAttribute("hintText", null);
-            session.setAttribute("autoSolved", false);
-
-            if (riddleIndex + 1 >= riddles.size()) {
-                return "redirect:/game/enter-pin";
-            }
-            return "redirect:/game";
+            session.setAttribute("autoSolved", true);
         } else {
-            session.setAttribute("errorMessage", "Wrong answer. Try again!");
-            return "redirect:/game";
+            session.setAttribute("errorMessage", "Incorrect answer. Try again or ask for a hint.");
         }
+
+        return "redirect:/game";
     }
 
     // ── HINT ─────────────────────────────────────────────────────────────────
@@ -252,11 +230,6 @@ public class GameController {
         if (!asBool(session.getAttribute("autoSolved"))) {
             updateTimer(session);
             gameService.applySolvePenalty(session);
-
-            int[] revealedDigits = (int[]) session.getAttribute("revealedDigits");
-            revealedDigits[riddleIndex] = riddles.get(riddleIndex).getDigit();
-            session.setAttribute("revealedDigits", revealedDigits);
-
             session.setAttribute("autoSolved", true);
         }
 

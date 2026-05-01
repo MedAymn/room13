@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <title>Room 13 — Choose a level</title>
@@ -181,20 +181,16 @@
 <body>
   <nav class="nav">
     <span class="brand">Room 13</span>
-    <span>Signed in as <b style="color:var(--ink)" th:text="${player.username}">kai_07</b> · <a th:href="@{/logout}">Sign out</a></span>
+    <span>Signed in as <b style="color:var(--ink)"><!-- th:text="${player.username}" -->kai_07</b> · <a href="login.html">Sign out</a></span>
   </nav>
 
   <main class="wrap">
-    <p class="hello">Welcome back, <b th:text="${player.username}">Kai</b>.</p>
+    <p class="hello">Welcome back, <b><!-- th:text="${player.username}" -->Kai</b>.</p>
     <h1>Choose how <em>quietly</em> you'd like to leave.</h1>
     <p class="lede">Three rooms, three patiences. The harder the room, the shorter the clock and the longer the code. Pick one — you can always save and come back.</p>
 
     <div class="levels">
-      <form id="startForm" th:action="@{/game/start}" method="post" style="display:none;">
-        <input type="hidden" name="level" id="levelInput" />
-      </form>
-
-      <a class="level" href="#" onclick="document.getElementById('levelInput').value='EASY'; document.getElementById('startForm').submit(); return false;">
+      <a class="level" href="game.html?level=EASY">
         <span class="num">01</span>
         <div>
           <div class="title">Initiate <span class="bars b1"><i></i><i></i><i></i></span></div>
@@ -208,7 +204,7 @@
         <span class="arrow">→</span>
       </a>
 
-      <a class="level" href="#" onclick="document.getElementById('levelInput').value='MEDIUM'; document.getElementById('startForm').submit(); return false;">
+      <a class="level" href="game.html?level=MEDIUM">
         <span class="num">02</span>
         <div>
           <div class="title">Operative <span class="bars b2"><i></i><i></i><i></i></span></div>
@@ -222,7 +218,7 @@
         <span class="arrow">→</span>
       </a>
 
-      <a class="level" href="#" onclick="document.getElementById('levelInput').value='HARD'; document.getElementById('startForm').submit(); return false;">
+      <a class="level" href="game.html?level=HARD">
         <span class="num">03</span>
         <div>
           <div class="title">Ghost <span class="bars b3"><i></i><i></i><i></i></span></div>
@@ -239,35 +235,33 @@
 
     <div class="section-h">
       <h2>Saved sessions</h2>
-      <span class="count" th:text="${savedGames.size()} + ' in progress'">2 in progress</span>
+      <span class="count">2 in progress</span>
     </div>
 
     <table>
       <thead>
-        <tr><th>Level</th><th>Started</th><th>Elapsed / Time left</th><th>Score</th><th></th></tr>
+        <tr><th>Level</th><th>Started</th><th>Elapsed</th><th>Score</th><th></th></tr>
       </thead>
       <tbody>
-        <tr th:if="${#lists.isEmpty(savedGames)}">
-          <td colspan="5" class="empty">No active sessions.</td>
+        <!-- th:each="s : ${savedSessions}" -->
+        <tr>
+          <td><b>Operative</b></td>
+          <td>Yesterday, 22:14</td>
+          <td>02:11</td>
+          <td>1,420</td>
+          <td style="text-align:right;"><button class="resume">Resume →</button></td>
         </tr>
-        <tr th:each="game : ${savedGames}">
-          <td><b th:text="${game.level}">Operative</b></td>
-          <td th:text="${#dates.format(game.savedAt, 'MMM dd, HH:mm')}">Yesterday, 22:14</td>
-          <td th:text="${game.remainingSeconds} + 's left'">02:11</td>
-          <td th:text="${game.currentScore}">1,420</td>
-          <td style="text-align:right;">
-             <form th:action="@{/game/load/{id}(id=${game.id})}" method="get" style="display:inline;">
-                 <button type="submit" class="resume" style="margin-right: 12px;">Resume →</button>
-             </form>
-             <form th:action="@{/game/delete/{id}(id=${game.id})}" method="post" style="display:inline;">
-                 <button type="submit" class="resume" style="color:var(--warn); border-bottom-color:var(--warn);">Drop</button>
-             </form>
-          </td>
+        <tr>
+          <td><b>Initiate</b></td>
+          <td>Mon, 09:02</td>
+          <td>01:48</td>
+          <td>620</td>
+          <td style="text-align:right;"><button class="resume">Resume →</button></td>
         </tr>
       </tbody>
     </table>
 
-    <a class="records" th:href="@{/dashboard}">See all records →</a>
+    <a class="records" href="dashboard.html">See all records →</a>
   </main>
 </body>
 </html>

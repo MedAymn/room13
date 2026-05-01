@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <title>Room 13 — Out</title>
@@ -111,7 +111,7 @@
 <body>
   <nav class="nav">
     <span class="brand">Room 13</span>
-    <span><a th:href="@{/menu}" style="text-decoration:none; color:var(--ink-2);">Back to menu</a></span>
+    <span><a href="menu.html" style="text-decoration:none; color:var(--ink-2);">Back to menu</a></span>
   </nav>
 
   <main class="wrap">
@@ -131,9 +131,9 @@
     </div>
 
     <div class="actions">
-      <a class="r13-btn primary" th:href="@{/menu}">Play again</a>
-      <a class="r13-btn" th:href="@{/menu}">Choose a different room</a>
-      <a class="r13-btn" th:href="@{/dashboard}">See records →</a>
+      <a class="r13-r13-btn primary" href="game.html">Play again</a>
+      <a class="r13-r13-btn" href="menu.html">Choose a different room</a>
+      <a class="r13-r13-btn" href="dashboard.html">See records →</a>
     </div>
 
     <div class="receipt">

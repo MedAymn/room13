@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <title>Room 13 — Time</title>
@@ -89,7 +89,7 @@
 <body>
   <nav class="nav">
     <span class="brand">Room 13</span>
-    <span><a th:href="@{/menu}" style="text-decoration:none; color:var(--ink-2);">Back to menu</a></span>
+    <span><a href="menu.html" style="text-decoration:none; color:var(--ink-2);">Back to menu</a></span>
   </nav>
 
   <main class="wrap">
@@ -98,15 +98,15 @@
     <p class="lede">Time elapsed. The corridor lights cut to standby and the room kept its secret. You can try again — the document is still on the desk.</p>
 
     <div class="stats">
-      <div class="pin-row"><span class="k">Level</span><span class="v">Operative</span></div>
-      <div class="pin-row"><span class="k">Time used</span><span class="v">04:00</span></div>
-      <div class="pin-row"><span class="k">Attempts used</span><span class="v">3 of 3</span></div>
-      <div class="pin-row total"><span class="k">Final score</span><span class="v">240</span></div>
+      <div class="r13-r13-row"><span class="k">Level</span><span class="v">Operative</span></div>
+      <div class="r13-r13-row"><span class="k">Time used</span><span class="v">04:00</span></div>
+      <div class="r13-r13-row"><span class="k">Attempts used</span><span class="v">3 of 3</span></div>
+      <div class="r13-r13-row total"><span class="k">Final score</span><span class="v">240</span></div>
     </div>
 
     <div class="actions">
-      <a class="r13-btn primary" th:href="@{/menu}">Try again</a>
-      <a class="r13-btn" th:href="@{/menu}">Back to menu</a>
+      <a class="r13-r13-btn primary" href="game.html">Try again</a>
+      <a class="r13-r13-btn" href="menu.html">Back to menu</a>
     </div>
   </main>
 </body>

@@ -1,6 +1,7 @@
 package com.room13.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.List;
 
 /**
  * POJO loaded from riddles.json — not a Hibernate entity.
@@ -14,7 +15,7 @@ public class Riddle {
     private String hint;
     private String answer;
     private String digitRule;
-    private int digit;
+    private List<Integer> digits;
     private String explanation;
 
     public Riddle() {}
@@ -37,8 +38,8 @@ public class Riddle {
     public String getDigitRule() { return digitRule; }
     public void setDigitRule(String digitRule) { this.digitRule = digitRule; }
 
-    public int getDigit() { return digit; }
-    public void setDigit(int digit) { this.digit = digit; }
+    public List<Integer> getDigits() { return digits; }
+    public void setDigits(List<Integer> digits) { this.digits = digits; }
 
     public String getExplanation() { return explanation; }
     public void setExplanation(String explanation) { this.explanation = explanation; }

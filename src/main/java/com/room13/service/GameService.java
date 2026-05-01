@@ -39,8 +39,8 @@ public class GameService {
     public List<Riddle> getRiddlesForLevel(Level level) {
         List<Riddle> pool = new ArrayList<>(riddlesByLevel.getOrDefault(level, Collections.emptyList()));
         Collections.shuffle(pool);
-        int count = getGoalLength(level);
-        return pool.subList(0, Math.min(count, pool.size()));
+        // Only 1 riddle per game now!
+        return pool.subList(0, Math.min(1, pool.size()));
     }
 
     /** Look up specific riddles by their IDs (used when restoring a saved game). */
@@ -60,14 +60,7 @@ public class GameService {
     /** Case-insensitive, trimmed answer check. */
     public boolean checkAnswer(Riddle riddle, String playerAnswer) {
         return playerAnswer != null
-                && playerAnswer.trim().toUpperCase().equals(riddle.getAnswer());
-    }
-
-    /** Initial int[] of -1 (unrevealed) for the given level. */
-    public int[] initRevealedDigits(Level level) {
-        int[] arr = new int[getGoalLength(level)];
-        Arrays.fill(arr, -1);
-        return arr;
+                && playerAnswer.trim().toUpperCase().equals(riddle.getAnswer().toUpperCase());
     }
 
     /** Score = remaining seconds × difficulty multiplier. */
@@ -89,14 +82,6 @@ public class GameService {
         }
     }
 
-    public int getGoalLength(Level level) {
-        switch (level) {
-            case MEDIUM: return 4;
-            case HARD:   return 6;
-            default:     return 3;
-        }
-    }
-
     /** Subtract 30 s from the session timer (hint penalty). */
     public void applyHintPenalty(HttpSession session) {
         int remaining = getRemaining(session);
@@ -105,22 +90,12 @@ public class GameService {
 
     /**
      * Subtract 90 s, mark current riddle as auto-solved, and reveal its digit.
-     * The controller is responsible for advancing riddleIndex afterwards.
      */
     @SuppressWarnings("unchecked")
     public void applySolvePenalty(HttpSession session) {
         int remaining = getRemaining(session);
         session.setAttribute("remainingSeconds", Math.max(0, remaining - 90));
         session.setAttribute("autoSolved", true);
-
-        List<Riddle> riddles = (List<Riddle>) session.getAttribute("riddles");
-        int riddleIndex = (Integer) session.getAttribute("riddleIndex");
-        int[] revealedDigits = (int[]) session.getAttribute("revealedDigits");
-
-        if (riddles != null && riddleIndex < riddles.size() && revealedDigits != null) {
-            revealedDigits[riddleIndex] = riddles.get(riddleIndex).getDigit();
-            session.setAttribute("revealedDigits", revealedDigits);
-        }
     }
 
     private int getRemaining(HttpSession session) {

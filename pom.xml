@@ -120,6 +120,21 @@
                     <target>11</target>
                 </configuration>
             </plugin>
+            
+            <!-- Jetty plugin for running the app locally easily -->
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>9.4.51.v20230217</version>
+                <configuration>
+                    <webApp>
+                        <contextPath>/</contextPath>
+                    </webApp>
+                    <httpConnector>
+                        <port>8080</port>
+                    </httpConnector>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

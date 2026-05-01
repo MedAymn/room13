@@ -2,7 +2,7 @@
  * keypad.js — On-screen PIN keypad for the enter-pin page.
  *
  * Reads pinLength from #pinLength.
- * Renders entered digits in .entry-box elements.
+ * Renders entered digits in .pb elements inside #pinEntryDisplay.
  * Writes assembled PIN into #pinInput (hidden form field).
  * Submits #pinForm when all digits are entered and confirmed.
  * Also handles keyboard digit input (0–9, Backspace, Enter).
@@ -13,28 +13,27 @@
     var pinLengthEl = document.getElementById('pinLength');
     var pinInput    = document.getElementById('pinInput');
     var pinForm     = document.getElementById('pinForm');
-    var entryBoxes  = document.querySelectorAll('.entry-box');
+    var displayEl   = document.getElementById('pinEntryDisplay');
 
-    if (!pinLengthEl || !pinInput || !pinForm) return;
+    if (!pinLengthEl || !pinInput || !pinForm || !displayEl) return;
 
-    var pinLength = parseInt(pinLengthEl.value, 10) || 3;
-    var entered   = [];  // array of digit strings
-
-    // ── Rendering ──────────────────────────────────────────────────────────
+    var entryBoxes = displayEl.querySelectorAll('.pb');
+    var pinLength  = parseInt(pinLengthEl.value, 10) || 3;
+    var entered    = [];
 
     function render() {
         entryBoxes.forEach(function (box, i) {
             if (i < entered.length) {
                 box.textContent = entered[i];
                 box.classList.add('filled');
+                box.classList.remove('empty');
             } else {
-                box.textContent = '_';
+                box.textContent = '·';
                 box.classList.remove('filled');
+                box.classList.add('empty');
             }
         });
     }
-
-    // ── Actions ────────────────────────────────────────────────────────────
 
     function addDigit(d) {
         if (entered.length >= pinLength) return;
@@ -51,12 +50,11 @@
     function confirm() {
         if (entered.length !== pinLength) {
             // Visual shake
-            var display = document.querySelector('.pin-entry-display');
-            if (display) {
-                display.style.transition = 'transform 0.1s';
-                display.style.transform  = 'translateX(6px)';
-                setTimeout(function () { display.style.transform = 'translateX(-6px)'; }, 100);
-                setTimeout(function () { display.style.transform = 'translateX(0)'; }, 200);
+            if (displayEl) {
+                displayEl.classList.remove('shake');
+                void displayEl.offsetWidth;
+                displayEl.classList.add('shake');
+                setTimeout(function () { displayEl.classList.remove('shake'); }, 500);
             }
             return;
         }
@@ -64,8 +62,7 @@
         pinForm.submit();
     }
 
-    // ── On-screen keypad listeners ─────────────────────────────────────────
-
+    // On-screen keypad listeners
     var keys = document.querySelectorAll('.key[data-digit]');
     keys.forEach(function (key) {
         key.addEventListener('click', function () {
@@ -83,8 +80,7 @@
         confirmBtn.addEventListener('click', function () { confirm(); });
     }
 
-    // ── Keyboard listeners ────────────────────────────────────────────────
-
+    // Keyboard listeners
     document.addEventListener('keydown', function (e) {
         if (e.key >= '0' && e.key <= '9') {
             addDigit(e.key);
@@ -97,7 +93,5 @@
         }
     });
 
-    // ── Initial render ────────────────────────────────────────────────────
     render();
-
 }());

@@ -1,232 +1,52 @@
 [
   {
-    "id": 101,
-    "level": "EASY",
-    "question": "Hajiya ma jiya, qed el kess w yelbes myat 3baya (The size of a cup but wears 100 cloaks).",
-    "hint": "Tbekik ki t9acherha.",
-    "answer": "BSEL",
-    "digitRule": "COUNT_LETTERS",
-    "digit": 4,
-    "explanation": "BSEL (Onion) has 4 letters → digit is 4"
-  },
-  {
-    "id": 102,
+    "id": 5,
     "level": "MEDIUM",
-    "question": "Hajiya ma jiya, ymchi w ma 3endouch rejlin, ybki w ma 3endouch 3inin (Walks without legs, cries without eyes).",
-    "hint": "F sma (In the sky).",
-    "answer": "SHAB",
-    "digitRule": "COUNT_LETTERS",
-    "digit": 4,
-    "explanation": "SHAB (Clouds) has 4 letters → digit is 4"
+    "question": "La recette disait : battre trois œufs, ajouter deux cents grammes de farine. Le four devait chauffer à cent quatre-vingts degrés. Ma minuterie sonnait toutes les cinq minutes.",
+    "hint": "Cherche : les œufs, les grammes de farine, la température, la minuterie.",
+    "answer": "3205",
+    "digitRule": "EXTRACT_NUMBERS_IN_ORDER",
+    "digits": [3, 200, 180, 5],
+    "explanation": "3 œufs | 200g → 2 | 180° → 0 (centaines supprimées) | 5 minutes → code 3205"
   },
   {
-    "id": 103,
+    "id": 6,
     "level": "HARD",
-    "question": "Hajiya ma jiya, 3andha snan w ma t3adch (Has teeth but doesnt bite).",
-    "hint": "Tsere7 biha ch3arek.",
-    "answer": "MOSHTA",
-    "digitRule": "COUNT_LETTERS",
-    "digit": 6,
-    "explanation": "MOSHTA (Comb) has 6 letters → digit is 6"
-  },
-  {
-    "id": 1,
-    "level": "EASY",
-    "question": "I have hands but no arms, a face but no eyes. What am I?",
-    "hint": "You check me every morning.",
-    "answer": "CLOCK",
-    "digitRule": "COUNT_LETTERS",
-    "digit": 5,
-    "explanation": "CLOCK has 5 letters → digit is 5"
+    "question": "Le vieux phare se dressait au bout de la jetée. Son faisceau tournait une fois toutes les six secondes. En bas, quatre bateaux attendaient dans la brume. J'avais marché dix minutes pour arriver jusqu'ici, et la mer était à moins un degré.",
+    "hint": "Cherche : les secondes, les bateaux, les minutes, la température.",
+    "answer": "6411",
+    "digitRule": "EXTRACT_NUMBERS_IN_ORDER",
+    "digits": [6, 4, 10, 1],
+    "explanation": "6 secondes | 4 bateaux | 10 minutes → 1 | 1 degré → code 6411"
   },
   {
     "id": 2,
     "level": "EASY",
-    "question": "The more you take, the more you leave behind. What am I?",
-    "hint": "Think about walking.",
-    "answer": "FOOTSTEPS",
-    "digitRule": "COUNT_LETTERS",
-    "digit": 9,
-    "explanation": "FOOTSTEPS has 9 letters → digit is 9"
+    "question": "Le marché était animé. J'ai acheté des œufs — une douzaine exactement. La marchande m'a rendu la monnaie avec cinq pièces. En rentrant, j'ai croisé un chat à sept vies comme on dit, puis j'ai monté les deux escaliers jusqu'à mon appartement.",
+    "hint": "Cherche : les œufs, les pièces, les vies du chat, les escaliers.",
+    "answer": "1252",
+    "digitRule": "EXTRACT_NUMBERS_IN_ORDER",
+    "digits": [12, 5, 7, 2],
+    "explanation": "12 œufs → 1+2=1 | 5 pièces → 5 | 7 vies → 2 (7-5) | 2 escaliers → 2 → code 1252"
   },
   {
     "id": 3,
-    "level": "EASY",
-    "question": "I speak without a mouth and hear without ears. What am I?",
-    "hint": "Mountains know me well.",
-    "answer": "ECHO",
-    "digitRule": "COUNT_LETTERS",
-    "digit": 4,
-    "explanation": "ECHO has 4 letters → digit is 4"
+    "level": "MEDIUM",
+    "question": "La bibliothèque sentait vieux papier. J'ai pris un livre au hasard, ouvert à la page cent trente. La bibliothécaire portait des lunettes à double foyer. Dehors, trois pigeons se disputaient un bout de pain sur le rebord.",
+    "hint": "Cherche : la page, le foyer, les pigeons, et le début du livre.",
+    "answer": "1303",
+    "digitRule": "EXTRACT_NUMBERS_IN_ORDER",
+    "digits": [130, 2, 3, 1],
+    "explanation": "page 130 → 1 | double foyer → 2 fois → 3 | 3 pigeons → 3 | livre ouvert à page 1 → code 1303"
   },
   {
     "id": 4,
     "level": "EASY",
-    "question": "What gets wetter the more it dries?",
-    "hint": "You use it after a shower.",
-    "answer": "TOWEL",
-    "digitRule": "COUNT_LETTERS",
-    "digit": 5,
-    "explanation": "TOWEL has 5 letters → digit is 5"
-  },
-  {
-    "id": 5,
-    "level": "EASY",
-    "question": "I am always hungry and must always be fed. The finger I touch will soon turn red. What am I?",
-    "hint": "It is hot and bright and destroys.",
-    "answer": "FIRE",
-    "digitRule": "COUNT_LETTERS",
-    "digit": 4,
-    "explanation": "FIRE has 4 letters → digit is 4"
-  },
-  {
-    "id": 6,
-    "level": "EASY",
-    "question": "What goes up but never comes down?",
-    "hint": "Think about growing older.",
-    "answer": "AGE",
-    "digitRule": "COUNT_LETTERS",
-    "digit": 3,
-    "explanation": "AGE has 3 letters → digit is 3"
-  },
-  {
-    "id": 7,
-    "level": "MEDIUM",
-    "question": "I have cities but no houses, mountains but no trees, water but no fish. What am I?",
-    "hint": "Explorers carry me.",
-    "answer": "MAP",
-    "digitRule": "COUNT_LETTERS",
-    "digit": 3,
-    "explanation": "MAP has 3 letters → digit is 3"
-  },
-  {
-    "id": 8,
-    "level": "MEDIUM",
-    "question": "The person who makes it sells it. The person who buys it doesn't use it. The person who uses it doesn't know it. What is it?",
-    "hint": "It is used at the end of one's life.",
-    "answer": "COFFIN",
-    "digitRule": "COUNT_LETTERS",
-    "digit": 6,
-    "explanation": "COFFIN has 6 letters → digit is 6"
-  },
-  {
-    "id": 9,
-    "level": "MEDIUM",
-    "question": "I am always in front of you but cannot be seen. What am I?",
-    "hint": "Time holds the answer.",
-    "answer": "FUTURE",
-    "digitRule": "COUNT_LETTERS",
-    "digit": 6,
-    "explanation": "FUTURE has 6 letters → digit is 6"
-  },
-  {
-    "id": 10,
-    "level": "MEDIUM",
-    "question": "I have a head, a tail, but no body. What am I?",
-    "hint": "Check your pocket.",
-    "answer": "COIN",
-    "digitRule": "COUNT_LETTERS",
-    "digit": 4,
-    "explanation": "COIN has 4 letters → digit is 4"
-  },
-  {
-    "id": 11,
-    "level": "MEDIUM",
-    "question": "I can be broken without being touched, given without being held, and kept without being locked away. What am I?",
-    "hint": "You make it when you give your word.",
-    "answer": "PROMISE",
-    "digitRule": "COUNT_LETTERS",
-    "digit": 7,
-    "explanation": "PROMISE has 7 letters → digit is 7"
-  },
-  {
-    "id": 12,
-    "level": "MEDIUM",
-    "question": "The more you remove from me, the bigger I become. What am I?",
-    "hint": "Dig down and you will find me.",
-    "answer": "HOLE",
-    "digitRule": "COUNT_LETTERS",
-    "digit": 4,
-    "explanation": "HOLE has 4 letters → digit is 4"
-  },
-  {
-    "id": 13,
-    "level": "HARD",
-    "question": "What has keys but no locks, space but no room, and you can enter but cannot go inside?",
-    "hint": "You use it every day without thinking.",
-    "answer": "KEYBOARD",
-    "digitRule": "COUNT_LETTERS",
-    "digit": 8,
-    "explanation": "KEYBOARD has 8 letters → digit is 8"
-  },
-  {
-    "id": 14,
-    "level": "HARD",
-    "question": "I can be cracked, made, told and played. What am I?",
-    "hint": "It makes people laugh.",
-    "answer": "JOKE",
-    "digitRule": "COUNT_LETTERS",
-    "digit": 4,
-    "explanation": "JOKE has 4 letters → digit is 4"
-  },
-  {
-    "id": 15,
-    "level": "HARD",
-    "question": "The more you have of it, the less you see. What am I?",
-    "hint": "It disappears when light arrives.",
-    "answer": "DARKNESS",
-    "digitRule": "COUNT_LETTERS",
-    "digit": 8,
-    "explanation": "DARKNESS has 8 letters → digit is 8"
-  },
-  {
-    "id": 16,
-    "level": "HARD",
-    "question": "I fly without wings. I cry without eyes. Wherever I go, darkness follows me. What am I?",
-    "hint": "Look up on a rainy day.",
-    "answer": "CLOUD",
-    "digitRule": "COUNT_LETTERS",
-    "digit": 5,
-    "explanation": "CLOUD has 5 letters → digit is 5"
-  },
-  {
-    "id": 17,
-    "level": "HARD",
-    "question": "I have no voice, yet I speak to you. I tell of all things in the world that people do. What am I?",
-    "hint": "Found in every library.",
-    "answer": "BOOK",
-    "digitRule": "COUNT_LETTERS",
-    "digit": 4,
-    "explanation": "BOOK has 4 letters → digit is 4"
-  },
-  {
-    "id": 18,
-    "level": "HARD",
-    "question": "What can travel around the world while staying in a corner?",
-    "hint": "It goes on envelopes.",
-    "answer": "STAMP",
-    "digitRule": "COUNT_LETTERS",
-    "digit": 5,
-    "explanation": "STAMP has 5 letters → digit is 5"
-  },
-  {
-    "id": 19,
-    "level": "HARD",
-    "question": "I shrink every time I do my job. Without me you cannot undo your mistakes. What am I?",
-    "hint": "Pencils need me.",
-    "answer": "ERASER",
-    "digitRule": "COUNT_LETTERS",
-    "digit": 6,
-    "explanation": "ERASER has 6 letters → digit is 6"
-  },
-  {
-    "id": 20,
-    "level": "HARD",
-    "question": "I have branches but no fruit, no trunk, and no leaves. What am I?",
-    "hint": "Money is kept here.",
-    "answer": "BANK",
-    "digitRule": "COUNT_LETTERS",
-    "digit": 4,
-    "explanation": "BANK has 4 letters → digit is 4"
+    "question": "Il faisait froid ce matin. J'ai mis mes gants, puis j'ai compté les marches jusqu'à la rue : il y en avait neuf. Mon voisin du quatrième étage m'a salué depuis sa fenêtre. J'avais rendez-vous à huit heures pile.",
+    "hint": "Cherche : les gants (doigts), les marches, l'étage, l'heure.",
+    "answer": "2948",
+    "digitRule": "EXTRACT_NUMBERS_IN_ORDER",
+    "digits": [2, 9, 4, 8],
+    "explanation": "2 gants | 9 marches | 4ème étage | 8 heures → code 2948"
   }
 ]

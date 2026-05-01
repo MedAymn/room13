@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <title>Room 13 — Sign in</title>
@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-<style th:inline="css">
+<style>
   :root {
     --bg: #111110;
     --paper: #1a1a18;
@@ -87,7 +87,7 @@
     align-self: flex-start;
     width: 200px;
     aspect-ratio: 683 / 1024;
-    background: url('[[@{/static/assets/gold-key.jpg}]]') center/contain no-repeat;
+    background: url('assets/gold-key.jpg') center/contain no-repeat;
     mix-blend-mode: screen;
     filter: contrast(1.05) brightness(1.0);
     transform: rotate(-6deg) translateX(-12px);
@@ -226,22 +226,21 @@
     </section>
 
     <section class="right">
-      <form class="panel" id="loginForm" method="post" th:action="@{/login}" autocomplete="off" novalidate>
+      <form class="panel" id="loginForm" method="post" action="/auth/login" autocomplete="off" novalidate>
         <p class="eyebrow">Returning</p>
         <h2>Sign in</h2>
         <p class="helper">Use the identifier you registered with. New here? Request access below.</p>
 
-        <div style="color: var(--good); margin-bottom: 12px; font-size: 14px;" th:if="${success}" th:text="${success}"></div>
-        <div style="color: var(--warn); margin-bottom: 12px; font-size: 14px;" th:if="${error}" th:text="${error}"></div>
-
-        <div class="field" id="f-user" th:classappend="${error != null} ? 'has-error' : ''">
+        <div class="field" id="f-user">
           <label for="username">Identifier</label>
-          <input id="username" name="username" type="text" placeholder="e.g. kai_07" spellcheck="false" required />
+          <input id="username" name="username" type="text" placeholder="e.g. kai_07" spellcheck="false" />
+          <div class="err">We don't recognize that identifier.</div>
         </div>
 
-        <div class="field" id="f-pass" th:classappend="${error != null} ? 'has-error' : ''">
+        <div class="field" id="f-pass">
           <label for="password">Passkey</label>
-          <input id="password" name="password" type="password" placeholder="Your passkey" required />
+          <input id="password" name="password" type="password" placeholder="Your passkey" />
+          <div class="err">That passkey didn't match.</div>
         </div>
 
         <div class="r13-r13-row">
@@ -251,11 +250,21 @@
 
         <button class="submit" type="submit">Enter the room →</button>
 
-        <p class="switch">No clearance yet? <a th:href="@{/register}">Request access</a>.</p>
+        <p class="switch">No clearance yet? <a href="register.html">Request access</a>.</p>
       </form>
     </section>
   </main>
 
-
+<script>
+  const form = document.getElementById('loginForm');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    const u = document.getElementById('username').value.trim();
+    const p = document.getElementById('password').value;
+    document.getElementById('f-user').classList.toggle('has-error', !u);
+    document.getElementById('f-pass').classList.toggle('has-error', !p);
+    if (u && p) window.location.href = 'menu.html';
+  });
+</script>
 </body>
 </html>
